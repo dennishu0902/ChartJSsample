@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test Chart JS</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <canvas id="myLineChart" width=400 height=400 style="border:1px solid"></canvas>
+  <script>
+  d3.csv("/mood.csv", function makeChart(data) {
+      console.log(data[0]); 
+      var name = data.map(function(d) {return d.name;});
+      var moodindex = data.map(function(d) {return d.moodindex;});
+      var date = data.map(function(d) {return d.date;});
+      new Chart(document.getElementById("myLineChart"), {
+         type: 'line',
+         data: {
+           labels: date,
+    		datasets: [{
+        	data: moodindex,
+        	label: "Mood Index",
+        	borderColor: "#3e95cd",
+        	fill: false
+      		}]
+            },
+  	options: {
+        	title: {
+      		display: true,
+      		text: '\"' + name[0] + '\"' + 'Mood Index Trend'
+    		},
+    		hover: {
+     		mode: 'index',
+    		 intersect: true
+    		},
+                responsive: false,
+    		maintainAspectRatio: true,
+    		scales: {
+        	yAxes: [{
+            		ticks: {
+                	beginAtZero:false
+                               }
+       		         }]
+   	                }
+	         }
+        	});
+     });
+</script>
+</body>
+</html>
